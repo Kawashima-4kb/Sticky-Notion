@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Build
+build/
+dist/
+*.spec
+
+# Secrets / local config
+.env
+config.json
+queue.json
+
+# Editor / OS
+.vscode/
+.idea/
+Thumbs.db
+*.code-workspace
+# Claude Code / local notes
+.claude/
+CLAUDE.md
+memory.md
+plan.md
