@@ -190,7 +190,7 @@ class McpClientTest(unittest.TestCase):
             last_headers = server.requests[-1][1]
             self.assertEqual(last_headers["Mcp-session-id"], "s1")
             self.assertEqual(last_headers["Authorization"], "Bearer at")
-            self.assertTrue(last_headers["User-agent"].startswith("NotionTask/"))
+            self.assertTrue(last_headers["User-agent"].startswith("Sticky-Notion/"))
 
     def test_url_query_skips_search(self):
         server = FakeMcpServer()

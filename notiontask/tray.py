@@ -35,7 +35,7 @@ class TrayIcon:
             pystray.Menu.SEPARATOR,
             pystray.MenuItem("終了", lambda: on_quit()),
         )
-        self._icon = pystray.Icon("NotionTask", make_icon_image(), title, menu)
+        self._icon = pystray.Icon(title, make_icon_image(), title, menu)
 
     def start(self):
         if self._icon:

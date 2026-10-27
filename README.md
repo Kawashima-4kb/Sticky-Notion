@@ -1,4 +1,4 @@
-# NotionTask
+# Sticky-Notion
 
 常に最前面に表示される小さなウィンドウから、Notion のデータベースへ新規ページを素早く作成する Windows 用アプリです。
 思いついたタスクやメモを、作業を止めずにすぐ Notion に投げ込めます。
@@ -71,7 +71,7 @@ MCP 方式では DB の一覧を自動取得できないため、メイン画面
 .\build.bat
 ```
 
-`dist\NotionTask.exe` が生成されます。
+`dist\Sticky-Notion.exe` が生成されます。
 
 ## テスト
 
@@ -81,8 +81,10 @@ MCP 方式では DB の一覧を自動取得できないため、メイン画面
 
 ## 設定とデータの保存場所
 
-- `%APPDATA%\NotionTask\config.json`: 接続・DB 一覧・ウィンドウ状態など。トークン類は Windows DPAPI で暗号化して保存します（同じ Windows ユーザーでしか復号できません）
-- `%APPDATA%\NotionTask\queue.json`: 未送信のページ
+- `%APPDATA%\Sticky-Notion\config.json`: 接続・DB 一覧・ウィンドウ状態など。トークン類は Windows DPAPI で暗号化して保存します（同じ Windows ユーザーでしか復号できません）
+- `%APPDATA%\Sticky-Notion\queue.json`: 未送信のページ
+
+（旧名 `NotionTask` 時代の `%APPDATA%\NotionTask` フォルダは、初回起動時に自動で引き継ぎます。）
 
 トークン類が送信されるのは Notion（`api.notion.com` / `mcp.notion.com`）だけです。
 

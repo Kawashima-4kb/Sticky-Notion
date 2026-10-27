@@ -1,12 +1,13 @@
-"""設定ファイル（%APPDATA%\\NotionTask\\config.json）の読み書き。"""
+"""設定ファイル（%APPDATA%\\Sticky-Notion\\config.json）の読み書き。"""
 
 import json
 import os
+import shutil
 import threading
 import uuid
 from pathlib import Path
 
-from notiontask import APP_NAME
+from notiontask import APP_NAME, LEGACY_APP_NAME
 from notiontask.secretstore import protect
 
 DEFAULTS = {
@@ -28,8 +29,15 @@ DEFAULTS = {
 
 
 def app_dir():
-    base = os.environ.get("APPDATA") or str(Path.home())
-    path = Path(base) / APP_NAME
+    base = Path(os.environ.get("APPDATA") or Path.home())
+    path = base / APP_NAME
+    legacy = base / LEGACY_APP_NAME
+    if not path.exists() and legacy.is_dir():
+        # 旧名（NotionTask）時代の設定・キューを引き継ぐ
+        try:
+            legacy.rename(path)
+        except OSError:
+            shutil.copytree(legacy, path)
     path.mkdir(parents=True, exist_ok=True)
     return path
 

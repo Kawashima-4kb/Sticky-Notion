@@ -1,13 +1,15 @@
 import datetime
 import io
 import json
+import os
 import sys
 import tempfile
 import unittest
+from unittest import mock
 import urllib.error
 from pathlib import Path
 
-from notiontask.config import Config
+from notiontask.config import Config, app_dir
 from notiontask.hotkey import parse_hotkey
 from notiontask.markdown import split_title, text_to_blocks
 from notiontask.notion_api import NotionClient, NotionError
@@ -220,6 +222,19 @@ class ConfigTest(unittest.TestCase):
             path = Path(d) / "config.json"
             path.write_text("{broken", encoding="utf-8")
             self.assertEqual(Config(path)["connections"], [])
+
+    def test_app_dir_migrates_legacy_folder(self):
+        with tempfile.TemporaryDirectory() as d:
+            legacy = Path(d) / "NotionTask"
+            legacy.mkdir()
+            (legacy / "config.json").write_text('{"hotkey": "Ctrl+Alt+M"}', encoding="utf-8")
+            with mock.patch.dict(os.environ, {"APPDATA": d}):
+                path = app_dir()
+                self.assertEqual(path.name, "Sticky-Notion")
+                self.assertFalse(legacy.exists())
+                self.assertEqual(Config(path / "config.json")["hotkey"], "Ctrl+Alt+M")
+                # 2 回目以降は何もしない
+                self.assertEqual(app_dir(), path)
 
     def test_migrate_single_token(self):
         with tempfile.TemporaryDirectory() as d:
